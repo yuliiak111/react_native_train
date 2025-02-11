@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
   Animated,
   Easing,
 } from 'react-native';
@@ -16,34 +15,54 @@ import DiceThree from '../assets/Three.png';
 import DiceFour from '../assets/Four.png';
 import DiceFive from '../assets/Five.png';
 import DiceSix from '../assets/Six.png';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
+// Dice images array
 const diceImages = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix];
 
-const Dice = ({ imageUrl, animation }: { imageUrl: ImageSourcePropType, animation: Animated.Value }) => {
+// Dice Component
+const Dice = ({ imageUrl, animation }: { imageUrl: ImageSourcePropType; animation: Animated.Value }) => {
   return (
-    <Animated.View style={[styles.diceContainer, {
-      transform: [{
-        rotate: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['0deg', '360deg'],
-        }),
-      },
-      ],
-    }]}
+    <Animated.View
+      style={[
+        styles.diceContainer,
+        {
+          transform: [
+            {
+              rotate: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg'],
+              }),
+            },
+          ],
+        },
+      ]}
     >
       <Image style={styles.diceImage} source={imageUrl} />
     </Animated.View>
   );
 };
 
+// Main App Component
 const App = () => {
   const [diceImage, setDiceImage] = useState<ImageSourcePropType>(DiceFive);
   const rotation = useState(new Animated.Value(0))[0];
 
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
+
+  // Function to roll the dice
   const rollDice = () => {
+    // Get random number for dice
     const randomNumber = Math.floor(Math.random() * 6);
     setDiceImage(diceImages[randomNumber]);
 
+    // Haptic feedback
+    ReactNativeHapticFeedback.trigger('impactHeavy', options);
+
+    // Start rotation animation
     Animated.sequence([
       Animated.timing(rotation, {
         toValue: 1,
@@ -63,7 +82,10 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>🎲 Roll the Dice! 🎲</Text>
       <Dice imageUrl={diceImage} animation={rotation} />
-      <Pressable style={styles.button} onPress={rollDice}>
+      <Pressable
+        style={styles.button}
+        onPress={rollDice}
+      >
         <Text style={styles.buttonText}>Roll the Dice</Text>
       </Pressable>
     </SafeAreaView>
@@ -72,6 +94,7 @@ const App = () => {
 
 export default App;
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

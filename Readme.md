@@ -42,7 +42,7 @@ A comprehensive collection of React Native projects and implementations from [Hi
 
    ```bash
    git clone https://git@github.com:yuliiak111/react_native_train.git
-   cd mobile-app-development
+   cd react_native_train
    cd <Desire-Folder>
 
 2. **Install Dependencies**

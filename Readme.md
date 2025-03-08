@@ -41,7 +41,7 @@ A comprehensive collection of React Native projects and implementations from [Hi
 1. **Clone Repository**
 
    ```bash
-   git clone https://github.com/saranzafar/mobile-app-development.git
+   git clone https://git@github.com:yuliiak111/react_native_train.git
    cd mobile-app-development
    cd <Desire-Folder>
 
